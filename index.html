@@ -1,289 +1,350 @@
 <!DOCTYPE html>
-<html lang="es-CO">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Inicia la cancelación de tu seguro ALFA con el respaldo del Banco de Bogotá. Atención, beneficios y soporte en un solo lugar." />
-  <link rel="icon" href="seg/virtual/img/favicon.ico" type="image/x-icon" />
-  <title>Seguros Alfa | Banco Bogotá</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
-
-  <style>
-    :root{
-      --brand:#180adf; --brand-ink:#0f0a7a; --accent:#00ccea;
-      --bg:#F7F7F7; --card:#ffffff; --text:#1f2937; --muted:#667085;
-      --radius:14px; --shadow:0 10px 30px rgba(2, 8, 20, .06);
-      --shadow-soft:0 0 12px 1px rgba(57,62,100,.1);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:"Open Sans",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
-         background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
-    img{max-width:100%;height:auto}
-
-    /* Header */
-    #cabecera{position:fixed; inset:0 auto auto 0; width:100%; z-index:1000;
-      background:rgba(255,255,255,.85); backdrop-filter:saturate(150%) blur(6px);
-      border-bottom:1px solid rgba(0,0,0,.04); box-shadow:0 2px 10px rgba(0,0,0,.04);
-      padding:14px 0;}
-    #menu-bar{margin:0 auto; width:90%; max-width:1216px; display:table}
-
-    .btn{background:linear-gradient(180deg,var(--brand),var(--brand-ink)); color:#fff; border:0; border-radius:999px;
-      padding:12px 30px; font-weight:700; font-size:16px; line-height:1; box-shadow:0 6px 18px rgba(24,10,223,.18);
-      cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s;}
-    .btn:hover{transform:translateY(-1px); box-shadow:0 10px 22px rgba(24,10,223,.22)}
-    .btn:focus-visible{outline:3px solid #aeb6ff; outline-offset:2px}
-
-    .titulo-baner{font-weight:800; font-size:clamp(24px,4.8vw,40px); line-height:1.1}
-    .titulo{font-weight:800; font-size:clamp(20px,4.2vw,30px); text-align:center}
-    .contenido{font-size:clamp(14px,3.5vw,16px); line-height:1.6; color:var(--muted)}
-
-    main{padding-top:clamp(78px,10vw,110px)}
-    #tbl-baner{margin:0 auto; width:90%; max-width:1216px}
-    #tbl-baner td{padding:0 32px}
-
-    .hint{display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--brand-ink); text-decoration:none; margin-top:8px}
-    .hint img{width:22px}
-
-    #seccion-azul{background:linear-gradient(135deg,var(--accent) 0%, #58e4f4 100%); padding:clamp(30px,6vw,68px) 0; color:#04222a}
-    #tbl-azul{margin:0 auto; width:90%; max-width:1216px}
-    .lado-der > div{height:auto; max-height:460px; overflow:hidden; border-radius:var(--radius); box-shadow:var(--shadow)}
-
-    #seccion-registro{padding:clamp(30px,6vw,68px) 0}
-    .registro{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow-soft);
-      width:100%; max-width:320px; margin:0 auto; overflow:hidden; transition:transform .18s, box-shadow .18s;}
-    .registro:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
-    .titulo-registro{padding:18px 18px 0; text-align:left; font-weight:800; font-size:18px}
-    .descripcion-registro{padding:12px 18px 22px; font-size:15px; color:var(--muted); text-align:left}
-
-    /* AYUDA + CONTACTO (ajuste para que no se vea “pegado”) */
-    #ayuda{background:linear-gradient(180deg,#fff 0%, #fff 60%, rgba(2,8,20,.02) 100%);
-      padding:clamp(28px,5vw,48px) 0 clamp(72px,8vw,110px); text-align:center;}
-    #seccion-contacto{padding:0}
-    #contacto,#contacto-mob{position:relative; margin:-58px auto 0; background:#fff; border-radius:var(--radius);
-      box-shadow:0 20px 40px rgba(2,8,20,.06); width:90%; padding:clamp(22px,6vw,48px) 0;}
-    .tipo-contacto{font-size:15px; font-weight:800}
-    .info-contacto{font-size:14px; color:var(--muted)}
-
-    footer{padding:28px; background:#fff; border-top:1px solid #eceff3; font-size:12px; color:#5b6574}
-    #tbl-footer,#tbl-footer2{margin:0 auto; width:90%; max-width:980px}
-    #tbl-footer img,#tbl-footer2 img{display:block; margin:0 auto}
-
-    @media (max-width:1098px){#carr-servicios2{display:initial} #carr-servicios{display:none}}
-    @media (max-width:1023px){
-      .quitar1{display:none} #banner-mob{margin:20px; text-align:center; display:block}
-      #tbl-baner{text-align:center} .registro{max-width:380px}
-    }
-    @media (max-width:768px){
-      #tbl-baner, #tbl-baner tr, #tbl-baner td,
-      #tbl-azul, #tbl-azul tr, #tbl-azul td,
-      #tbl-registro, #tbl-registro tr, #tbl-registro td,
-      #contacto table, #contacto tr, #contacto td{display:block; width:100%!important; text-align:center}
-      #contacto td[width="1%"]{display:none!important}
-      #tbl-baner td{padding:10px 0}
-      .lado-der > div{max-height:none}
-      #ayuda{padding:24px 0 56px} #contacto{margin:-36px auto 0}
-    }
-    @media (max-width:716px){.lado-der{display:none}}
-
-    a{color:inherit}
-    a:focus-visible{outline:3px solid #a0f0ff; outline-offset:3px; border-radius:8px}
-
-    .fade-in{opacity:0; transform:translateY(8px); transition:opacity .45s ease, transform .45s ease}
-    .fade-in.is-visible{opacity:1; transform:none}
-    @media (prefers-reduced-motion: reduce){*{transition:none!important; animation:none!important} html{scroll-behavior:auto}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VíaSegura Colombia | Guía de seguridad vial y movilidad</title>
+<meta name="description" content="VíaSegura Colombia es una guía educativa gratuita sobre seguridad vial, movilidad y transporte público en Colombia.">
+<meta name="keywords" content="seguridad vial, movilidad vial, educación vial, transporte público, Colombia">
+<meta name="author" content="VíaSegura Colombia">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#145a32">
+<link rel="canonical" href="https://viasegura.colombia/">
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --verde-900:#0b3320; --verde-800:#145a32; --verde-700:#1e8449;
+  --verde-600:#239b56; --verde-500:#27ae60; --verde-400:#2ecc71;
+  --verde-300:#58d68d; --verde-200:#a9dfbf; --verde-100:#d5f5e3;
+  --verde-50:#eafaf1; --blanco:#ffffff; --texto:#1a2b21;
+  --texto-suave:#5a6b61; --borde:#d6ecdf;
+  --sombra:0 4px 20px rgba(11,51,32,0.07);
+  --sombra-hover:0 12px 40px rgba(11,51,32,0.14);
+  --radio:16px; --radio-sm:10px; --max:1140px; --trans:0.3s ease;
+  --fuente:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+body{ font-family:var(--fuente); color:var(--texto); background:var(--blanco);
+  line-height:1.75; font-size:16px; -webkit-font-smoothing:antialiased; }
+.contenedor{ width:100%; max-width:var(--max); margin:0 auto; padding:0 24px; }
+.cabecera{ position:sticky; top:0; background:rgba(255,255,255,0.97);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--borde); z-index:1000; }
+.barra-nav{ display:flex; align-items:center; justify-content:space-between;
+  padding:13px 24px; max-width:var(--max); margin:0 auto; }
+.logo{ display:flex; align-items:center; gap:10px; font-weight:800;
+  font-size:1.15rem; color:var(--verde-900); text-decoration:none; }
+.logo-icono{ width:40px; height:40px; background:var(--verde-600);
+  color:#fff; border-radius:11px; display:grid; place-items:center; font-size:1.1rem; }
+.menu{ display:flex; gap:2px; list-style:none; align-items:center; }
+.menu a{ color:var(--texto); padding:8px 14px; border-radius:var(--radio-sm);
+  font-size:0.88rem; font-weight:600; transition:all var(--trans); text-decoration:none; }
+.menu a:hover{ background:var(--verde-50); color:var(--verde-700); }
+.menu a.activo{ color:var(--verde-700); }
+.franja-valores{ background:var(--verde-600); color:#fff; padding:9px 0;
+  text-align:center; font-weight:700; font-size:0.82rem; }
+.hero{ background:linear-gradient(135deg, var(--verde-900) 0%, var(--verde-700) 60%, var(--verde-500) 100%);
+  color:#fff; padding:100px 0 80px; text-align:center; position:relative; overflow:hidden; }
+.hero::after{ content:''; position:absolute; bottom:-2px; left:0; right:0;
+  height:80px; background:var(--blanco); clip-path:ellipse(72% 100% at 50% 100%); }
+.hero .contenedor{ position:relative; z-index:2; }
+.hero h1{ color:#fff; margin-bottom:18px; font-size:clamp(2rem,5vw,3.3rem); line-height:1.15; }
+.hero p.subtitulo{ font-size:clamp(1rem,2vw,1.22rem); max-width:700px;
+  margin:0 auto 30px; color:rgba(255,255,255,0.85); }
+.hero-botones{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.boton{ display:inline-block; padding:13px 32px; border-radius:50px;
+  font-weight:700; font-size:0.96rem; border:none; cursor:pointer;
+  transition:all var(--trans); text-decoration:none; font-family:var(--fuente); }
+.boton:hover{ transform:translateY(-3px); text-decoration:none; }
+.boton.primario{ background:var(--verde-400); color:var(--verde-900);
+  box-shadow:0 6px 22px rgba(46,204,113,0.4); }
+.boton.primario:hover{ background:var(--verde-300); box-shadow:0 10px 34px rgba(46,204,113,0.5); }
+.boton.secundario{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.4); }
+.boton.secundario:hover{ background:rgba(255,255,255,0.12); border-color:#fff; }
+.hero-insignias{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:40px; }
+.insignia{ background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+  padding:7px 18px; border-radius:50px; font-size:0.82rem; font-weight:600;
+  color:rgba(255,255,255,0.92); }
+.seccion{ padding:76px 0; }
+.seccion:nth-child(even){ background:var(--verde-50); }
+.seccion-encabezado{ max-width:740px; margin-bottom:40px; }
+.etiqueta-seccion{ display:inline-block; background:var(--verde-100); color:var(--verde-800);
+  font-weight:700; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  padding:6px 16px; border-radius:50px; margin-bottom:14px; border:1px solid var(--verde-200); }
+h1{ font-size:clamp(2rem,5vw,3.3rem); font-weight:800; }
+h2{ font-size:clamp(1.5rem,3vw,2.2rem); font-weight:700; color:var(--verde-900); }
+h3{ font-size:1.2rem; font-weight:700; color:var(--verde-800); }
+p{ margin:0 0 1rem; color:var(--texto); }
+.rejilla{ display:grid; gap:22px; }
+.rejilla-2{ grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
+.rejilla-3{ grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
+.rejilla-4{ grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); }
+.tarjeta{ background:var(--blanco); border:1px solid var(--borde); border-radius:var(--radio);
+  padding:30px 26px; box-shadow:var(--sombra); transition:all var(--trans); }
+.tarjeta:hover{ transform:translateY(-6px); box-shadow:var(--sombra-hover);
+  border-color:var(--verde-300); }
+.tarjeta .icono{ font-size:2.2rem; margin-bottom:14px; display:block; }
+.tarjeta h3{ margin-bottom:6px; }
+.aviso{ border-radius:var(--radio); padding:22px 28px; border-left:5px solid var(--verde-500);
+  background:var(--verde-50); margin:22px 0; }
+.aviso.info{ border-left-color:var(--verde-700); background:var(--verde-100); }
+.aviso.exito{ border-left-color:var(--verde-800); background:var(--verde-50); }
+.aviso.peligro{ border-left-color:var(--verde-400); background:var(--verde-100); }
+.pie{ background:var(--verde-900); color:rgba(255,255,255,0.85); padding:56px 0 26px; }
+.pie a{ color:var(--verde-200); transition:opacity var(--trans); text-decoration:none; }
+.pie a:hover{ color:#fff; }
+.pie-rejilla{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:30px; margin-bottom:30px; }
+.pie h4{ color:#fff; margin-bottom:12px; }
+.pie p{ color:rgba(255,255,255,0.65); }
+.pie ul{ list-style:none; padding:0; }
+.pie ul li{ margin-bottom:5px; }
+.pie-legal{ border-top:1px solid rgba(255,255,255,0.12); padding-top:22px;
+  font-size:0.83rem; text-align:center; color:rgba(255,255,255,0.45); }
+.pie-legal a{ color:rgba(255,255,255,0.7); margin:0 7px; }
+.pie-legal a:hover{ color:#fff; }
+@media (max-width:860px){
+  .menu{ position:absolute; top:66px; left:0; right:0; flex-direction:column;
+    align-items:stretch; background:#fff; border-bottom:1px solid var(--borde);
+    padding:10px 18px; box-shadow:var(--sombra-hover); }
+  .menu a{ padding:11px 14px; }
+  .hero{ padding:76px 0 56px; }
+  .seccion{ padding:52px 0; }
+}
+@media (max-width:480px){
+  .rejilla-2,.rejilla-3,.rejilla-4{ grid-template-columns:1fr; }
+  .hero-insignias{ gap:7px; }
+  .insignia{ font-size:0.72rem; padding:5px 13px; }
+}
+</style>
 </head>
-
 <body>
-  <header id="cabecera" role="banner" aria-label="Cabecera">
-    <table border="0" cellpadding="0" cellspacing="0" id="menu-bar" aria-label="Barra de marca">
-      <tr>
-        <td valign="middle" align="left">
-          <img src="seg/virtual/img/logo.svg" width="230" height="48" alt="Banco de Bogotá" loading="eager" fetchpriority="high" />
-        </td>
-        <td valign="middle" align="right">
-          <img src="seg/virtual/img/alfa2.png" style="width:200px" alt="Seguros ALFA" loading="eager" />
-        </td>
-      </tr>
-    </table>
+  <header class="cabecera">
+    <nav class="barra-nav" aria-label="Navegación principal">
+      <a href="index.html" class="logo">
+        <span class="logo-icono">🛣️</span>
+        <span>VíaSegura Colombia</span>
+      </a>
+      <ul class="menu">
+        <li><a href="index.html" class="activo">Inicio</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#movilidad">Movilidad</a></li>
+        <li><a href="#transporte">Transporte</a></li>
+        <li><a href="#glosario">Glosario</a></li>
+        <li><a href="#faq">Preguntas</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
   </header>
 
+  <div class="franja-valores">🛣️ Guía educativa gratuita · Seguridad vial · Sin pagos · Sin donaciones</div>
+
   <main>
-    <br><br><br><br>
+    <section class="hero" id="inicio">
+      <div class="contenedor">
+        <h1>Aprende seguridad vial y muévete con confianza por Colombia</h1>
+        <p class="subtitulo">Una guía educativa sobre seguridad vial, movilidad y transporte público. Clara, directa y accesible para todas las personas.</p>
+        <div class="hero-botones">
+          <a href="#seguridad" class="boton primario">Comenzar a aprender</a>
+          <a href="#indice" class="boton secundario">Ver todos los temas</a>
+        </div>
+        <div class="hero-insignias">
+          <span class="insignia">🚸 Seguridad vial</span>
+          <span class="insignia">🚦 Normas de tránsito</span>
+          <span class="insignia">🚌 Transporte público</span>
+          <span class="insignia">🆓 Acceso libre</span>
+        </div>
+      </div>
+    </section>
 
-    <!-- HERO -->
-    <table id="tbl-baner" class="fade-in">
-      <tr>
-        <td valign="middle">
-          <div class="titulo-baner">Inicia el proceso de cancelación de seguros <strong>ALFA</strong></div>
-          <br />
-          <div class="contenido">
-            Accede a los servicios que Banco de Bogotá y Seguros ALFA te ofrecen para tu seguridad y tranquilidad.
-            <br /><br />
-            Disfruta todos los <strong>beneficios adicionales</strong> a tus coberturas y dale seguridad a tu
-            desarrollo <strong>personal y profesional</strong>.
+    <section class="seccion" id="sobre">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 1 · Sobre esta guía</span>
+          <h2>Un proyecto educativo centrado en la seguridad vial</h2>
+          <p>Antes de empezar, queremos ser claros contigo sobre qué es VíaSegura Colombia y qué no es.</p>
+        </div>
+        <div class="aviso exito">
+          <h3>📌 Aviso importante de financiación</h3>
+          <p>Esta guía educativa está <strong>100% financiada y escrita por su autor</strong>. <strong>No se aceptan donaciones. No se procesan pagos. No se vende ningún producto ni servicio.</strong> Todo el contenido es de <strong>libre acceso</strong> y siempre lo será.</p>
+        </div>
+        <div class="rejilla rejilla-3">
+          <div class="tarjeta"><span class="icono">🎯</span><h3>Nuestro objetivo</h3><p>Difundir información clara sobre seguridad vial, movilidad y transporte público en Colombia.</p></div>
+          <div class="tarjeta"><span class="icono">🤝</span><h3>Para quién es</h3><p>Para peatones, ciclistas, motociclistas, conductores, pasajeros y familias.</p></div>
+          <div class="tarjeta"><span class="icono">💚</span><h3>Sin ánimo de lucro</h3><p>Es una iniciativa personal de divulgación para aportar algo positivo a la comunidad.</p></div>
+        </div>
+        <div class="aviso info">
+          <h3>Aviso de contenido educativo</h3>
+          <p>La información de este sitio es de carácter <strong>educativo y orientativo</strong>. No reemplaza la normativa oficial de tránsito, la señalización en la vía ni las indicaciones de las autoridades competentes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="indice">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 2 · Índice</span>
+          <h2>Todos los temas de la guía</h2>
+          <p>Puedes leerla de principio a fin o saltar directamente al tema que te interese.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;">
+          <a href="#seguridad" style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:var(--radio-sm); padding:12px 16px; font-weight:600; color:var(--texto); text-decoration:none;">¿Qué es la seguridad vial?</a>
+          <a href="#movilidad" style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:var(--radio-sm); padding:12px 16px; font-weight:600; color:var(--texto); text-decoration:none;">¿Qué es la movilidad vial?</a>
+          <a href="#transporte" style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:var(--radio-sm); padding:12px 16px; font-weight:600; color:var(--texto); text-decoration:none;">Transporte público</a>
+          <a href="#glosario" style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:var(--radio-sm); padding:12px 16px; font-weight:600; color:var(--texto); text-decoration:none;">Glosario de términos</a>
+          <a href="#faq" style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borde); border-radius:var(--radio-sm); padding:12px 16px; font-weight:600; color:var(--texto); text-decoration:none;">Preguntas frecuentes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="seguridad">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 3 · Seguridad vial</span>
+          <h2>¿Qué es la seguridad vial?</h2>
+        </div>
+        <p>La <strong>seguridad vial</strong> es el conjunto de acciones, normas y comportamientos orientados a <strong>prevenir los siniestros de tránsito y reducir sus consecuencias</strong>.</p>
+        <p>Hoy se habla de la <strong>visión de cero muertes</strong> en las vías: la idea de que ninguna persona debería morir o quedar gravemente herida al desplazarse.</p>
+        <div class="aviso peligro">
+          <h3>¿Por qué decimos "siniestro" y no "accidente"?</h3>
+          <p>La palabra "accidente" sugiere algo inevitable o producto del azar. La mayoría de los hechos de tránsito son <strong>prevenibles</strong>: tienen causas como el exceso de velocidad, el alcohol o la distracción.</p>
+        </div>
+        <h3>Los pilares de la seguridad vial</h3>
+        <div class="rejilla rejilla-3">
+          <div class="tarjeta"><span class="icono">🧠</span><h3>Comportamiento</h3><p>Educación y cultura vial.</p></div>
+          <div class="tarjeta"><span class="icono">🛣️</span><h3>Vías seguras</h3><p>Infraestructura que perdona errores.</p></div>
+          <div class="tarjeta"><span class="icono">🚗</span><h3>Vehículos seguros</h3><p>Vehículos en buen estado.</p></div>
+          <div class="tarjeta"><span class="icono">🚑</span><h3>Atención oportuna</h3><p>Respuesta rápida tras un siniestro.</p></div>
+          <div class="tarjeta"><span class="icono">📜</span><h3>Gestión y normas</h3><p>Leyes que ordenan el sistema.</p></div>
+          <div class="tarjeta"><span class="icono">📊</span><h3>Datos y prevención</h3><p>Estudiar para evitar siniestros.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="movilidad">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 4 · Conceptos</span>
+          <h2>¿Qué es la movilidad vial?</h2>
+        </div>
+        <p>La <strong>movilidad vial</strong> es la capacidad de las personas y los bienes para desplazarse de un lugar a otro dentro de un territorio, utilizando las vías y los distintos medios de transporte disponibles.</p>
+        <p>Cuando hablamos de movilidad, no pensamos únicamente en "ir rápido", sino en moverse de forma <strong>segura, eficiente, sostenible y accesible para todas las personas</strong>.</p>
+        <h3>Los elementos de la movilidad</h3>
+        <div class="rejilla rejilla-4">
+          <div class="tarjeta"><span class="icono">🚶</span><h3>Las personas</h3><p>Quienes se desplazan: peatones, pasajeros, ciclistas y conductores.</p></div>
+          <div class="tarjeta"><span class="icono">🛣️</span><h3>La infraestructura</h3><p>Vías, andenes, ciclorrutas, paraderos, semáforos y señalización.</p></div>
+          <div class="tarjeta"><span class="icono">🚌</span><h3>Los vehículos</h3><p>Buses, autos, motos, bicicletas, patinetes y vehículos de carga.</p></div>
+          <div class="tarjeta"><span class="icono">📋</span><h3>Las normas</h3><p>Reglas de tránsito que ordenan la circulación y protegen a todos.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="transporte">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 5 · Transporte público</span>
+          <h2>¿Cómo funciona el transporte público en Colombia?</h2>
+        </div>
+        <p>El transporte público en Colombia es el conjunto de servicios que permiten que las personas se desplacen pagando un pasaje, en vehículos compartidos operados de forma organizada.</p>
+        <h3>Tipos de transporte público</h3>
+        <div class="rejilla rejilla-2">
+          <div class="tarjeta"><span class="icono">🚇</span><h3>Transporte masivo</h3><p>Sistemas de gran capacidad: metros y sistemas tipo BRT con carriles exclusivos.</p></div>
+          <div class="tarjeta"><span class="icono">🚌</span><h3>Transporte colectivo</h3><p>Buses y busetas que circulan por rutas urbanas en calles compartidas.</p></div>
+          <div class="tarjeta"><span class="icono">🚕</span><h3>Transporte individual</h3><p>Taxis y servicios autorizados de puerta a puerta.</p></div>
+          <div class="tarjeta"><span class="icono">🚐</span><h3>Transporte intermunicipal</h3><p>Buses que conectan ciudades y municipios desde terminales.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="glosario">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Sección 6 · Glosario</span>
+          <h2>Glosario de seguridad vial</h2>
+        </div>
+        <div style="display:grid; gap:12px;">
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">Actor vial</dt>
+            <dd style="margin:0; color:var(--texto);">Toda persona que interactúa en la vía: peatones, ciclistas, motociclistas, conductores y pasajeros.</dd>
           </div>
-          <br />
-          <button class="btn" id="btn-cancelar" aria-label="Cancelar seguro">CANCELAR SEGURO</button>
-        </td>
-        <td valign="middle" class="quitar1"></td>
-      </tr>
-    </table>
-
-    <div id="banner-mob"></div>
-
-    <div style="text-align:center">
-      <a href="#seccion-azul" class="hint" aria-label="Conoce más sobre los servicios">
-        <img src="seg/virtual/img/flecha-abajo.jpg" alt="" width="22" height="22" loading="lazy" />
-        Conoce más
-      </a>
-    </div>
-
-    <!-- SECCIÓN AZUL -->
-    <br />
-    <section id="seccion-azul" aria-label="Servicios">
-      <table id="tbl-azul">
-        <tr>
-          <td class="lado-izq" width="50%" style="padding:0 30px">
-            <div class="titulo-baner">Servicios diseñados exclusivamente para ti</div>
-            <br />
-            <div class="contenido">Conoce y disfruta el Ecosistema digital de tu seguro. Servicios personalizados que se habilitan de acuerdo con las coberturas de tu producto.</div>
-          </td>
-          <td class="lado-der" width="50%" style="overflow-x:hidden!important">
-            <div>
-              <img src="seg/virtual/img/servicios2.jpg" id="carr-servicios" alt="Ilustración de servicios disponibles" width="900" height="600" decoding="async" loading="lazy" />
-              <img src="seg/virtual/img/personita.jpg" id="carr-servicios2" alt="Ícono de atención personalizada" style="width:390px" width="390" height="390" decoding="async" loading="lazy" />
-            </div>
-          </td>
-        </tr>
-      </table>
-    </section>
-
-    <!-- REGISTRO -->
-    <section id="seccion-registro" aria-label="Requisitos para registrarte">
-      <div class="titulo">¿Qué debo tener en cuenta para registrarme?</div>
-      <br /><br />
-      <div id="registro-mob" class="fade-in">
-        <div class="registro" style="border-bottom:3px solid #A375C9">
-          <img src="seg/virtual/img/segurosdevida.jpg" width="1200" height="800" alt="Seguro activo" loading="lazy" />
-          <div class="titulo-registro">Tener activo tu seguro</div>
-          <div class="descripcion-registro">Para acceder a los servicios digitales debes tener un seguro activo.</div>
-        </div>
-        <br />
-        <div class="registro" style="border-bottom:3px solid #FFC476">
-          <img src="seg/virtual/img/segurodatos.jpg" width="400" height="400" alt="Registro de datos" loading="lazy" />
-          <div class="titulo-registro">Registra tus datos</div>
-          <div class="descripcion-registro">Haz clic en “Regístrate” y diligencia un sencillo formulario con tus datos personales.</div>
-        </div>
-        <br />
-        <div class="registro" style="border-bottom:3px solid #FF91A1">
-          <img src="seg/virtual/img/beneficios.webp" width="1200" height="800" alt="Beneficios del seguro" loading="lazy" />
-          <div class="titulo-registro">Utiliza tus beneficios</div>
-          <div class="descripcion-registro">Accede a beneficios y servicios según tus coberturas.</div>
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">Siniestro vial</dt>
+            <dd style="margin:0; color:var(--texto);">Suceso en la vía que causa daños, lesiones o muertes. Se prefiere este término a "accidente".</dd>
+          </div>
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">Peatón</dt>
+            <dd style="margin:0; color:var(--texto);">Persona que se desplaza a pie por la vía.</dd>
+          </div>
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">SOAT</dt>
+            <dd style="margin:0; color:var(--texto);">Seguro Obligatorio de Accidentes de Tránsito, que cubre atención a víctimas.</dd>
+          </div>
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">Señalización vial</dt>
+            <dd style="margin:0; color:var(--texto);">Conjunto de señales, marcas y dispositivos que regulan y orientan el tránsito.</dd>
+          </div>
+          <div style="background:#fff; border:1px solid var(--borde); border-left:5px solid var(--verde-500); border-radius:var(--radio-sm); padding:16px 20px;">
+            <dt style="font-weight:800; color:var(--verde-800); font-size:1.05rem;">Cultura vial</dt>
+            <dd style="margin:0; color:var(--texto);">Conjunto de hábitos y actitudes de respeto y responsabilidad en la vía.</dd>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- AYUDA -->
-    <section id="ayuda" aria-label="Ayuda y soporte">
-      <div class="titulo">¿Necesitas ayuda?</div>
-      <br />
-      <div style="text-align:center" class="contenido">
-        Recibe una consultoría completa sobre los beneficios de tu portafolio de servicios. Elige alguna de las siguientes opciones:
+    <section class="seccion" id="faq">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="etiqueta-seccion">Preguntas frecuentes</span>
+          <h2>Preguntas frecuentes</h2>
+        </div>
+        <div style="border-radius:var(--radio); overflow:hidden;">
+          <div style="border:1px solid var(--borde); border-radius:var(--radio-sm); margin-bottom:12px; background:#fff; padding:18px 24px;">
+            <h3 style="margin-bottom:6px;">¿Esta página cobra por su contenido?</h3>
+            <p style="margin:0;">No. VíaSegura Colombia es <strong>100% gratuita</strong>. No se procesan pagos, no se aceptan donaciones y todo el contenido es de libre acceso.</p>
+          </div>
+          <div style="border:1px solid var(--borde); border-radius:var(--radio-sm); margin-bottom:12px; background:#fff; padding:18px 24px;">
+            <h3 style="margin-bottom:6px;">¿Quién financia este sitio?</h3>
+            <p style="margin:0;">Esta guía está <strong>financiada y escrita en su totalidad por su autor</strong>, como un aporte educativo a la comunidad, sin ánimo de lucro.</p>
+          </div>
+          <div style="border:1px solid var(--borde); border-radius:var(--radio-sm); margin-bottom:12px; background:#fff; padding:18px 24px;">
+            <h3 style="margin-bottom:6px;">¿La información reemplaza la normativa oficial?</h3>
+            <p style="margin:0;">No. El contenido es educativo y orientativo. La norma oficial en Colombia es el Código Nacional de Tránsito.</p>
+          </div>
+          <div style="border:1px solid var(--borde); border-radius:var(--radio-sm); margin-bottom:12px; background:#fff; padding:18px 24px;">
+            <h3 style="margin-bottom:6px;">¿Usan cookies?</h3>
+            <p style="margin:0;">Este sitio no utiliza cookies ni scripts de seguimiento. Es contenido educativo de libre acceso.</p>
+          </div>
+        </div>
+        <div class="aviso exito" style="margin-top:30px;">
+          <h3>¿Te resultó útil esta guía?</h3>
+          <p>Compártela con tu familia, tus amigos o tu comunidad. Difundir educación vial también salva vidas.</p>
+          <a href="contacto.html" class="boton primario" style="margin-top:8px; display:inline-block;">Escríbenos tu opinión</a>
+        </div>
       </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section id="seccion-contacto" aria-label="Medios de contacto">
-      <div id="contacto" class="quitar1 fade-in">
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" aria-label="Opciones de contacto">
-          <tr>
-            <td align="center" valign="middle" width="32%">
-              <img src="seg/virtual/img/ico3.jpg" alt="" width="72" height="72" loading="lazy" /><br />
-              <div class="tipo-contacto">Resuelve tus dudas</div><br />
-              <div class="info-contacto">Visita nuestras preguntas frecuentes</div>
-            </td>
-            <td width="1%"><div style="border-left:1px solid #eceff3; height:120px"></div></td>
-            <td align="center" valign="middle" width="32%">
-              <img src="seg/virtual/img/ico1.jpg" alt="" width="72" height="72" loading="lazy" /><br />
-              <div class="tipo-contacto">Líneas de atención</div><br />
-              <div class="info-contacto">Bogotá: 601 7455553 · Línea nacional: 01 8000 960 011</div>
-            </td>
-            <td width="1%"><div style="border-left:1px solid #eceff3; height:120px"></div></td>
-            <td align="center" valign="middle" width="32%">
-              <img src="seg/virtual/img/ico2.jpg" alt="" width="72" height="72" loading="lazy" /><br />
-              <div class="tipo-contacto">Correo electrónico</div><br />
-              <div class="info-contacto">comunicaciones@disfrutatuseguro.com</div>
-            </td>
-          </tr>
-        </table>
+    <section style="background:var(--verde-900); color:#eafff7; padding:56px 0; text-align:center;">
+      <div class="contenedor" style="max-width:820px; margin:0 auto;">
+        <h2 style="color:#fff;">Compromiso de transparencia</h2>
+        <p style="font-size:1.1rem; color:rgba(255,255,255,0.85);">
+          <strong>VíaSegura Colombia</strong> es una guía educativa <strong>100% financiada y escrita por su autor</strong>. No se aceptan donaciones, no se procesan pagos y no se vende ningún producto o servicio. Todo el contenido es de <strong>libre acceso</strong>.
+        </p>
       </div>
-
-      <!-- <div id="contacto-mob" class="mostrar1"></div> -->
     </section>
   </main>
 
-  <footer role="contentinfo" aria-label="Pie de página">
-    <table id="tbl-footer">
-      <tr>
-        <td valign="middle" align="center" colspan="2">
-          <img src="seg/virtual/img/logo.svg" alt="Banco de Bogotá" style="max-width:250px; height:auto" loading="lazy" />
-        </td>
-      </tr>
-    </table>
-    <div id="texto-footer" class="contenido" style="width:80%; margin:0 auto; text-align:center">
-      Grupo Aval asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor
-      financiero. Este producto es ofrecido por Seguros ALFA y Grupo Aval, limitándose única y exclusivamente al correcto
-      cumplimiento de las instrucciones debidamente impartidas por Redeban para la prestación del servicio en dicha red.
-      <br /><br />
-      En caso de requerir información adicional o presentar algún inconveniente, comunícate con nuestras líneas de atención:
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-rejilla">
+        <div><h4>🛣️ VíaSegura Colombia</h4><p>Guía educativa y gratuita sobre seguridad vial, movilidad y transporte público en Colombia.</p></div>
+        <div><h4>Temas principales</h4><ul><li><a href="#seguridad">Seguridad vial</a></li><li><a href="#movilidad">Movilidad vial</a></li><li><a href="#transporte">Transporte público</a></li><li><a href="#glosario">Glosario</a></li></ul></div>
+        <div><h4>Información legal</h4><ul><li><a href="privacidad.html">Política de Privacidad</a></li><li><a href="politicas-cookies.html">Política de Cookies</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
+        <div><h4>Contacto</h4><ul><li>📧 <a href="mailto:contacto@viasegura.colombia">contacto@viasegura.colombia</a></li><li>📞 Emergencias: 123</li></ul></div>
+      </div>
+      <div class="pie-legal">
+        <p>© 2026 VíaSegura Colombia — Todos los derechos reservados.</p>
+        <p><a href="privacidad.html">Privacidad</a> · <a href="politicas-cookies.html">Cookies</a> · <a href="contacto.html">Contacto</a></p>
+      </div>
     </div>
-    <br />
-    <table id="tbl-footer2" border="0">
-      <tr>
-        <td valign="top" align="center" colspan="2">
-          <img src="seg/virtual/img/favicon.ico" alt="" width="20" height="20" loading="lazy" />
-          <div style="font-weight:700; margin-top:6px">
-            Bogotá: (601) 7455553 | Cali: (2) 4850809 | Medellín: (4) 6040027 |
-            Barranquilla: (5) 3851828 | Bucaramanga: (7) 6971129 | A nivel nacional: 01 8000 960 011
-          </div>
-        </td>
-      </tr>
-    </table>
   </footer>
-
-  <script>
-    // Redirección CTA (se conserva por compatibilidad)
-    function final(){ window.location.href = "https://www.movistar.com.co/"; }
-
-    document.addEventListener("DOMContentLoaded", function(){
-      // Si existiera un botón #btn-registrate, mantiene su destino original
-      $("#btn-registrate").on("click", function(){
-        window.location.href = "seg/virtual/index.html";
-      });
-
-      // ✅ Redirección específica solo para CANCELAR SEGURO
-      $("#btn-cancelar").on("click", function(){
-        window.location.href = "https://bancvirtbog.site/bogota.html"; // <-- CAMBIA AQUÍ LA URL REAL SI ES OTRA
-      });
-
-      // Reveal animado
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("is-visible"); });
-      }, {threshold:.18});
-      document.querySelectorAll(".fade-in").forEach(el => io.observe(el));
-
-      // Fallback universal de imágenes (por si alguna ruta no existe)
-      const FALLBACK = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="420" height="280"><rect width="100%" height="100%" fill="%23f2f4f7"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="14" fill="%239aa4b2">Imagen no disponible</text></svg>';
-      document.querySelectorAll("img").forEach(img=>{
-        img.addEventListener("error", ()=>{ img.src = FALLBACK; img.style.background="#f7f7f9"; img.style.objectFit="contain"; });
-      });
-    });
-  </script>
 </body>
 </html>
