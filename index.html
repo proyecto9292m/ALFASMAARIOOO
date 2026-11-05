@@ -24,9 +24,99 @@
   --radio:16px; --radio-sm:10px; --max:1140px; --trans:0.3s ease;
   --fuente:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
+html, body{ scroll-behavior:smooth; }
 body{ font-family:var(--fuente); color:var(--texto); background:var(--blanco);
   line-height:1.75; font-size:16px; -webkit-font-smoothing:antialiased; }
 .contenedor{ width:100%; max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+/* ============================================================
+   VENTANA DE COOKIES (SIEMPRE VISIBLE AL ENTRAR)
+   ============================================================ */
+.cookie-overlay{
+  position:fixed; inset:0;
+  background:rgba(11,51,32,0.75);
+  backdrop-filter:blur(6px);
+  z-index:9998;
+}
+.cookie-banner{
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; z-index:9999;
+}
+.cookie-modal{
+  background:var(--blanco);
+  max-width:520px; width:100%;
+  padding:42px 34px;
+  border-radius:var(--radio);
+  box-shadow:0 24px 70px rgba(0,0,0,0.35);
+  text-align:center;
+  border-top:5px solid var(--verde-500);
+  animation:entradaCookie 0.55s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes entradaCookie{
+  from{ transform:scale(0.88) translateY(25px); opacity:0; }
+  to{ transform:scale(1) translateY(0); opacity:1; }
+}
+.cookie-modal h2{
+  font-size:1.45rem; margin-bottom:12px;
+  color:var(--verde-900); font-weight:800;
+}
+.cookie-modal p{
+  font-size:0.93rem; color:var(--texto-suave); margin-bottom:26px;
+}
+.cookie-acciones{
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+}
+.cookie-acciones .boton-cookie{
+  display:inline-block; padding:13px 34px; border-radius:50px;
+  font-weight:700; font-size:0.95rem; text-decoration:none;
+  transition:all var(--trans); min-width:150px; text-align:center;
+  font-family:var(--fuente);
+}
+.boton-cookie.aceptar{
+  background:var(--verde-600); color:#fff;
+  box-shadow:0 4px 16px rgba(35,155,86,0.35);
+}
+.boton-cookie.aceptar:hover{
+  background:var(--verde-500); transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(35,155,86,0.45);
+}
+.boton-cookie.rechazar{
+  background:transparent; color:var(--verde-700);
+  border:2px solid var(--verde-600);
+}
+.boton-cookie.rechazar:hover{
+  background:var(--verde-600); color:#fff; transform:translateY(-3px);
+}
+.cookie-enlaces{
+  margin-top:18px; font-size:0.8rem; color:var(--texto-suave);
+}
+.cookie-enlaces a{
+  color:var(--verde-700); font-weight:600; text-decoration:none;
+}
+.cookie-enlaces a:hover{ text-decoration:underline; }
+
+/* ============================================================
+   LÓGICA CSS: Aceptar o Rechazar oculta el banner y muestra el frontend
+   ============================================================ */
+#aceptar:target ~ .cookie-overlay,
+#aceptar:target ~ .cookie-banner,
+#rechazar:target ~ .cookie-overlay,
+#rechazar:target ~ .cookie-banner{
+  display:none;
+}
+.contenido-principal{ display:none; }
+#aceptar:target ~ .contenido-principal,
+#rechazar:target ~ .contenido-principal{
+  display:block;
+  animation:aparecer 0.6s ease;
+}
+@keyframes aparecer{
+  from{ opacity:0; transform:translateY(18px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* ===== RESTO DEL SITIO ===== */
 .cabecera{ position:sticky; top:0; background:rgba(255,255,255,0.97);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--borde); z-index:1000; }
 .barra-nav{ display:flex; align-items:center; justify-content:space-between;
@@ -109,15 +199,49 @@ p{ margin:0 0 1rem; color:var(--texto); }
   .menu a{ padding:11px 14px; }
   .hero{ padding:76px 0 56px; }
   .seccion{ padding:52px 0; }
+  .cookie-modal{ padding:32px 22px; margin:14px; }
 }
 @media (max-width:480px){
   .rejilla-2,.rejilla-3,.rejilla-4{ grid-template-columns:1fr; }
   .hero-insignias{ gap:7px; }
   .insignia{ font-size:0.72rem; padding:5px 13px; }
+  .cookie-acciones{ flex-direction:column; }
+  .cookie-acciones .boton-cookie{ width:100%; min-width:unset; }
 }
 </style>
 </head>
 <body>
+
+<!-- Anclas de control ocultas -->
+<span id="aceptar" style="position:absolute; top:-9999px;"></span>
+<span id="rechazar" style="position:absolute; top:-9999px;"></span>
+
+<!-- Overlay -->
+<div class="cookie-overlay"></div>
+
+<!-- Ventana de cookies (sin galleta) -->
+<div class="cookie-banner" role="dialog" aria-modal="true" aria-labelledby="titulo-cookies">
+  <div class="cookie-modal">
+    <h2 id="titulo-cookies">Aviso de cookies</h2>
+    <p>
+      Usamos cookies para mejorar tu experiencia y analizar el tráfico de forma anónima.
+      Al aceptar, nos permites ofrecerte contenido más relevante. También puedes rechazar
+      las cookies no esenciales.
+    </p>
+    <div class="cookie-acciones">
+      <a href="#rechazar" class="boton-cookie rechazar">Rechazar</a>
+      <a href="#aceptar" class="boton-cookie aceptar">Aceptar cookies</a>
+    </div>
+    <div class="cookie-enlaces">
+      <a href="privacidad.html">Política de Privacidad</a> ·
+      <a href="politicas-cookies.html">Política de Cookies</a>
+    </div>
+  </div>
+</div>
+
+<!-- Contenido principal (oculto hasta elegir) -->
+<div class="contenido-principal">
+
   <header class="cabecera">
     <nav class="barra-nav" aria-label="Navegación principal">
       <a href="index.html" class="logo">
@@ -346,5 +470,8 @@ p{ margin:0 0 1rem; color:var(--texto); }
       </div>
     </div>
   </footer>
+
+</div>
+
 </body>
 </html>
